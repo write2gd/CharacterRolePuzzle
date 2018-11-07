@@ -7,8 +7,8 @@ import com.gd.puzzle.domain.location.model.Location;
 public class LordOfTheRings extends Game {
     private String gameName = "The Lord Of the Rings";
 
-    public LordOfTheRings(List<Location> destinations, List<Player> players) {
-        super(destinations, players);
+    public LordOfTheRings(String gameSeriesName, List<Location> destinations, List<Player> players) {
+        super(gameSeriesName, destinations, players);
     }
 
     public String getGameName() {

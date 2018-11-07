@@ -8,7 +8,7 @@ import com.gd.puzzle.domain.shared.model.LordOfTheRings;
 import com.gd.puzzle.domain.shared.model.Player;
 
 public class LordOfTheRingsGameFactory {
-    public static Game createNewGame(List<Player> players, List<Location> locations) {
-        return new LordOfTheRings(locations, players);
+    public static Game createNewGame(List<Player> players, List<Location> locations, String type) {
+        return new LordOfTheRings(type,locations, players);
     }
 }

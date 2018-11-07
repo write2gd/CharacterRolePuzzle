@@ -9,7 +9,7 @@ import com.gd.puzzle.domain.shared.model.Player;
 
 public class MarvelGameFactory {
 
-    public static Game createNewGame(List<Player> players, List<Location> locations) {
-        return new Marvel(locations, players);
+    public static Game createNewGame(List<Player> players, List<Location> locations, String type) {
+        return new Marvel(type, locations, players);
     }
 }

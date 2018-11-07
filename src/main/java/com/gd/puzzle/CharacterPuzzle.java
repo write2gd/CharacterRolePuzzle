@@ -6,8 +6,6 @@ import com.gd.puzzle.domain.character.factory.CharacterFactory;
 import com.gd.puzzle.domain.character.model.GameCharacter;
 import com.gd.puzzle.domain.character.service.CharacterService;
 import com.gd.puzzle.domain.character.service.CharacterServiceBean;
-import com.gd.puzzle.domain.location.service.LocationService;
-import com.gd.puzzle.domain.location.service.LocationServiceBean;
 import com.gd.puzzle.domain.shared.helper.GameHelper;
 import com.gd.puzzle.domain.shared.service.GameService;
 import com.gd.puzzle.domain.shared.service.GameServiceBean;
@@ -21,7 +19,6 @@ import com.gd.puzzle.util.ResourceUtil;
 public class CharacterPuzzle {
     private static GameService gameService = GameServiceBean.getGameService();
     private static CharacterService characterService = CharacterServiceBean.getCharacterService();
-    private static LocationService locationService = LocationServiceBean.getLocationService();
     private static String[] series = null;
 
     public static void main(String[] args) throws InterruptedException {

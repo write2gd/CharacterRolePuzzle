@@ -2,7 +2,7 @@ package com.gd.puzzle.domain.character.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import com.gd.puzzle.domain.character.model.GameCharacter;
 import com.gd.puzzle.enums.CharacterType;
@@ -44,22 +44,22 @@ public class CharacterServiceBean implements CharacterService {
 
     @Override
     public List<GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException {
-        Set<GameCharacter> heros = repository.getAvailableHeros(selectedSeries);
+        Map<String, GameCharacter> heros = repository.getAvailableHeros(selectedSeries);
         if (heros == null) {
             return new ArrayList<>();
         } else {
-            return new ArrayList<>(heros);
+            return new ArrayList<>(heros.values());
         }
 
     }
 
     @Override
     public List<GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException {
-        Set<GameCharacter> villans = repository.getAvailableVilians(selectedSeries);
+        Map<String, GameCharacter> villans = repository.getAvailableVilians(selectedSeries);
         if (villans == null) {
             return new ArrayList<>();
         } else {
-            return new ArrayList<>(villans);
+            return new ArrayList<>(villans.values());
         }
     }
 }

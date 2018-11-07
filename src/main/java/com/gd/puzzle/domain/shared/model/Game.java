@@ -10,11 +10,14 @@ import com.gd.puzzle.domain.location.model.Location;
 import com.gd.puzzle.util.ConsoleUtil;
 
 public class Game implements Serializable {
+    private static final long serialVersionUID = 1l;
+    private String gameSeriesName;
     private List<Location> destinations;
     private List<Player> players;
     private boolean isActive = true;
 
-    public Game(List<Location> destinations, List<Player> players) {
+    public Game(String gameSeriesName, List<Location> destinations, List<Player> players) {
+        this.gameSeriesName = gameSeriesName;
         this.destinations = destinations;
         this.players = players;
     }
@@ -43,6 +46,14 @@ public class Game implements Serializable {
         isActive = active;
     }
 
+    public String getGameSeriesName() {
+        return gameSeriesName;
+    }
+
+    public void setGameSeriesName(String gameSeriesName) {
+        this.gameSeriesName = gameSeriesName;
+    }
+
     public void resetGame() {
         this.isActive = false;
         this.getPlayers()
@@ -69,9 +80,7 @@ public class Game implements Serializable {
                          .get(0);
         Player computer = this.getPlayers()
                               .get(1);
-        while (you.getGameCharacter()
-                  .getHealthLevel() > 0 && computer.getGameCharacter()
-                                                   .getHealthLevel() > 0) {
+        do {
             ConsoleUtil.showPlayerStatistics(this.getPlayers());
             Player current = you;
             Player opponent = computer;
@@ -86,16 +95,15 @@ public class Game implements Serializable {
             switch (action) {
             case 'S':
                 return null;
-            case 'X':
-                setActive(false);
+            case 'X': {
+                resetGame();
                 return null;
-            default: {
+            }
+            default:
                 makeAction(current, opponent, action);
             }
-
-            }
             computer.setHasNextTurn(!computer.isHasNextTurn());
-        }
+        } while (you.isAlive() && computer.isAlive());
         addExperience();
         resetGame();
         return getWinner();

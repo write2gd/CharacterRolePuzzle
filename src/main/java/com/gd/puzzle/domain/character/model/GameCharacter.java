@@ -8,6 +8,7 @@ import com.gd.puzzle.enums.CharacterType;
 import com.gd.puzzle.enums.Speciality;
 
 public class GameCharacter extends BaseCharacter implements Serializable {
+    private static final long serialVersionUID = 1l;
     private String characterName;
     private int experience;
     private Location currentLocation;

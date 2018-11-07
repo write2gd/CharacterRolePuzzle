@@ -7,8 +7,8 @@ import com.gd.puzzle.domain.location.model.Location;
 public class HarryPotter extends Game {
     private String gameName = "The Harry Potter";
 
-    public HarryPotter(List<Location> destinations, List<Player> players) {
-        super(destinations, players);
+    public HarryPotter(String gameSeriesName, List<Location> destinations, List<Player> players) {
+        super(gameSeriesName, destinations, players);
     }
 
     public String getGameName() {

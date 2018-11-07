@@ -6,9 +6,11 @@ import com.gd.puzzle.domain.character.model.GameCharacter;
 import com.gd.puzzle.domain.location.model.Location;
 
 public class Player implements Serializable, Comparable<Player> {
+    private static final long serialVersionUID = 1l;
     private String playerName;
     private GameCharacter gameCharacter;
     private boolean hasNextTurn;
+    private boolean isAlive = true;
     private Location location;
 
     public Player(String playerName, boolean hasNextTurn) {
@@ -46,6 +48,14 @@ public class Player implements Serializable, Comparable<Player> {
 
     public void setHasNextTurn(boolean hasNextTurn) {
         this.hasNextTurn = hasNextTurn;
+    }
+
+    public boolean isAlive() {
+        return this.gameCharacter.getHealthLevel() > 0;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 
     public Location travelToDestination(Location location) {

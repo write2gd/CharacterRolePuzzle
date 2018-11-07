@@ -8,7 +8,7 @@ import com.gd.puzzle.domain.shared.model.HarryPotter;
 import com.gd.puzzle.domain.shared.model.Player;
 
 public class HarryPotterGameFactory {
-    public static Game createNewGame(List<Player> players, List<Location> locations) {
-        return new HarryPotter(locations, players);
+    public static Game createNewGame(List<Player> players, List<Location> locations, String type) {
+        return new HarryPotter(type,locations, players);
     }
 }

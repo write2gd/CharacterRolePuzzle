@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Location implements Serializable {
+    private static final long serialVersionUID = 1l;
     private String name;
     private String locationType;
 

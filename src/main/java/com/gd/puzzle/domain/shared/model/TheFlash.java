@@ -7,8 +7,8 @@ import com.gd.puzzle.domain.location.model.Location;
 public class TheFlash extends Game {
     private String gameName = "The Flash";
 
-    public TheFlash(List<Location> destinations, List<Player> players) {
-        super(destinations, players);
+    public TheFlash(String gameSeriesName, List<Location> destinations, List<Player> players) {
+        super(gameSeriesName, destinations, players);
     }
 
     public String getGameName() {

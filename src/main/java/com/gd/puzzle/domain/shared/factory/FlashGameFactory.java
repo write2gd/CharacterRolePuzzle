@@ -9,7 +9,7 @@ import com.gd.puzzle.domain.shared.model.TheFlash;
 
 public class FlashGameFactory {
 
-    public static Game createNewGame(List<Player> players, List<Location> locations) {
-        return new TheFlash(locations, players);
+    public static Game createNewGame(List<Player> players, List<Location> locations, String type) {
+        return new TheFlash(type, locations, players);
     }
 }

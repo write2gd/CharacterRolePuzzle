@@ -16,6 +16,8 @@ import java.util.Set;
 import com.gd.puzzle.domain.character.model.GameCharacter;
 import com.gd.puzzle.domain.location.model.Location;
 import com.gd.puzzle.domain.shared.model.Game;
+import com.gd.puzzle.domain.shared.model.Player;
+import com.gd.puzzle.enums.CharacterType;
 import com.gd.puzzle.exception.CharacterServiceException;
 import com.gd.puzzle.exception.GameException;
 import com.gd.puzzle.exception.LocationServiceException;
@@ -24,8 +26,8 @@ import com.gd.puzzle.util.ConsoleUtil;
 public class GameRepository implements Repository {
     private static GameRepository gameRepository = null;
     private static Set<Location> locations = new HashSet<>();
-    public static Map<String, Set<GameCharacter>> heros = new HashMap<>();
-    public static Map<String, Set<GameCharacter>> vilians = new HashMap<>();
+    public static Map<String, Map<String, GameCharacter>> heros = new HashMap<>();
+    public static Map<String, Map<String, GameCharacter>> vilians = new HashMap<>();
 
     static {
         initRepo();
@@ -52,35 +54,35 @@ public class GameRepository implements Repository {
 
     @Override
     public void addHeroCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
-        Set<GameCharacter> characters = heros.get(seriesName);
+        Map<String, GameCharacter> characters = heros.get(seriesName);
         if (characters == null) {
-            characters = new HashSet<>();
-            characters.add(character);
+            characters = new HashMap<>();
+            characters.putIfAbsent(character.getCharacterName(), character);
             heros.put(seriesName, characters);
         } else {
-            characters.add(character);
+            characters.putIfAbsent(character.getCharacterName(), character);
         }
     }
 
     @Override
-    public Set<GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException {
+    public Map<String, GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException {
         return heros.get(selectedSeries);
     }
 
     @Override
-    public Set<GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException {
+    public Map<String, GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException {
         return vilians.get(selectedSeries);
     }
 
     @Override
     public void addVilianCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
-        Set<GameCharacter> characters = vilians.get(seriesName);
+        Map<String, GameCharacter> characters = vilians.get(seriesName);
         if (characters == null) {
-            characters = new HashSet<>();
-            characters.add(character);
+            characters = new HashMap<>();
+            characters.putIfAbsent(character.getCharacterName(), character);
             vilians.put(seriesName, characters);
         } else {
-            characters.add(character);
+            characters.putIfAbsent(character.getCharacterName(), character);
         }
     }
 
@@ -106,9 +108,12 @@ public class GameRepository implements Repository {
     }
 
     @Override
-    public void saveGameAttributes() {
+    public void saveGameAttributes(List<Player> players, String gameSeriesName, boolean hasCompleted) {
         FileOutputStream file;
         ObjectOutputStream out;
+        if (hasCompleted) {
+            updateStore(players, gameSeriesName);
+        }
         try {
             file = new FileOutputStream("game_heros");
             out = new ObjectOutputStream(file);
@@ -129,6 +134,22 @@ public class GameRepository implements Repository {
 
         }
 
+    }
+
+    private void updateStore(List<Player> players, String gameSeriesName) {
+        Map<String, GameCharacter> heroCharacters = heros.get(gameSeriesName);
+        Map<String, GameCharacter> vilianCharacters = vilians.get(gameSeriesName);
+        for (Player p : players) {
+            if (p.getGameCharacter()
+                 .getType() == CharacterType.HERO) {
+                heroCharacters.put(p.getGameCharacter()
+                                    .getCharacterName(), p.getGameCharacter());
+            } else if (p.getGameCharacter()
+                        .getType() == CharacterType.VILIAN) {
+                vilianCharacters.put(p.getGameCharacter()
+                                      .getCharacterName(), p.getGameCharacter());
+            }
+        }
     }
 
     @Override
@@ -164,13 +185,13 @@ public class GameRepository implements Repository {
         try {
             file = new FileInputStream("game_heros");
             in = new ObjectInputStream(file);
-            Map<String, Set<GameCharacter>> herosMap = (HashMap) in.readObject();
+            Map<String, Map<String, GameCharacter>> herosMap = (HashMap) in.readObject();
             heros.putAll(herosMap);
             in.close();
             file.close();
             file = new FileInputStream("game_vilians");
             in = new ObjectInputStream(file);
-            Map<String, Set<GameCharacter>> vilianMap = (HashMap) in.readObject();
+            Map<String, Map<String, GameCharacter>> vilianMap = (HashMap) in.readObject();
             vilians.putAll(vilianMap);
             in.close();
             file.close();

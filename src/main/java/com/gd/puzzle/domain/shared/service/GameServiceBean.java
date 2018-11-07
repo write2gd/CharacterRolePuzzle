@@ -61,7 +61,7 @@ public class GameServiceBean implements GameService {
         } catch (LocationServiceException e) {
             throw new GameServiceException(e.getMessage(), e);
         }
-        Game game = GameFactory.createGame(GameType.FLASH, locations, players);
+        Game game = GameFactory.createGame(gameType, locations, players);
         ConsoleUtil.showGameStartMessage();
         ConsoleUtil.printGameControls();
         Player winner = game.play();
@@ -72,16 +72,16 @@ public class GameServiceBean implements GameService {
         if (winner == null && game.isActive()) {
             saveGame(game, playerName);
         } else if (winner == null && !game.isActive()) {
-            deleteExistingGame(playerName);
+            deleteExistingGame(playerName, game, false);
         } else {
             ConsoleUtil.announceWinner(winner);
-            deleteExistingGame(playerName);
+            deleteExistingGame(playerName, game, true);
         }
     }
 
-    private void deleteExistingGame(String playerName) {
+    private void deleteExistingGame(String playerName, Game game, boolean hasCompleted) {
         repository.deleteExistingGame(playerName);
-        repository.saveGameAttributes();
+        repository.saveGameAttributes(game.getPlayers(), game.getGameSeriesName(), hasCompleted);
 
     }
 

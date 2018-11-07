@@ -12,15 +12,15 @@ import com.gd.puzzle.domain.shared.model.Player;
 import com.gd.puzzle.enums.GameType;
 
 public class GameFactory {
-    public static Game createGame(GameType type, List<Location> locations, List<Player> players) {
-        if (type.ordinal() == 1) {
-            return FlashGameFactory.createNewGame(players, locations);
-        } else if (type.ordinal() == 2) {
-            return HarryPotterGameFactory.createNewGame(players, locations);
-        } else if (type.ordinal() == 3) {
-            return LordOfTheRingsGameFactory.createNewGame(players, locations);
+    public static Game createGame(String type, List<Location> locations, List<Player> players) {
+        if (type.equalsIgnoreCase(GameType.FLASH.getGameName())) {
+            return FlashGameFactory.createNewGame(players, locations, type);
+        } else if (type.equalsIgnoreCase(GameType.HARRY_POTTER.getGameName())) {
+            return HarryPotterGameFactory.createNewGame(players, locations, type);
+        } else if (type.equalsIgnoreCase(GameType.THE_LORD_OF_THE_RINGS.getGameName())) {
+            return LordOfTheRingsGameFactory.createNewGame(players, locations, type);
         } else {
-            return MarvelGameFactory.createNewGame(players, locations);
+            return MarvelGameFactory.createNewGame(players, locations, type);
         }
     }
 }
