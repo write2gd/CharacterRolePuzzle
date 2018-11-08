@@ -4,24 +4,30 @@ The main features are :
 ● As a player You can to explore the game
 ● As a player You can experience through fighting
 ● As a player You can save and resume a game
-
+------------------------------------------------------------
 Instructions :
 1) Checkout the code from github
-2) Run maven install command to start with and follw the subsequent inputs to play.
+2) Run maven install command to start with and follow the subsequent inputs to play.
 3) If you don't have maven. Then directly run the Main class(PuzzleMainClass.java) from command line.
-
-
-
+---------------------------------------------------------------
 Features:
 1)This game supports multiple character :
 	->The Flash
 	->Harry Potter
 	->The Lord of the Rings
-	->SuperHeros
+	->SuperHeroes
 2)Any time you can save and resume the game.
 3)Any time you can switch to different character series.
 4)This game can be extended to more series
 
+----------------------------------------------------------------
+Design Patterns used:
+1)Factory/Abstract factory
+2)Lazy initialization
+3)Singleton
+-----------------------------------------------------------------
+Architecture used:
+1)Layered Architecture
 
 Credit:
 Gouranga Das

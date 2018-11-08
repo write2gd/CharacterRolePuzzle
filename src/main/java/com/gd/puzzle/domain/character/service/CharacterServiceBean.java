@@ -37,23 +37,23 @@ public class CharacterServiceBean implements CharacterService {
     }
 
     @Override
-    public List<GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException {
-        Map<String, GameCharacter> heros = repository.getAvailableHeros(selectedSeries);
-        if (heros == null) {
+    public List<GameCharacter> getAvailableHeroes(String selectedSeries) throws CharacterServiceException {
+        Map<String, GameCharacter> heroes = repository.getAvailableHeroes(selectedSeries);
+        if (heroes == null) {
             return new ArrayList<>();
         } else {
-            return new ArrayList<>(heros.values());
+            return new ArrayList<>(heroes.values());
         }
 
     }
 
     @Override
-    public List<GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException {
-        Map<String, GameCharacter> villans = repository.getAvailableVillains(selectedSeries);
-        if (villans == null) {
+    public List<GameCharacter> getAvailableVillains(String selectedSeries) throws CharacterServiceException {
+        Map<String, GameCharacter> villains = repository.getAvailableVillains(selectedSeries);
+        if (villains == null) {
             return new ArrayList<>();
         } else {
-            return new ArrayList<>(villans.values());
+            return new ArrayList<>(villains.values());
         }
     }
 }

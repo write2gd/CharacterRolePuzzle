@@ -20,8 +20,8 @@ import com.gd.puzzle.util.ConsoleUtil;
 
 public class GameRepository implements Repository {
     private static GameRepository gameRepository = null;
-    private static final Map<String, Map<String, GameCharacter>> heros = new HashMap<>();
-    private static final Map<String, Map<String, GameCharacter>> villains = new HashMap<>();
+    private static final Map<String, Map<String, GameCharacter>> HEROES = new HashMap<>();
+    private static final Map<String, Map<String, GameCharacter>> VILLAINS = new HashMap<>();
 
     static {
         initRepo();
@@ -43,33 +43,33 @@ public class GameRepository implements Repository {
 
     @Override
     public void addHeroCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
-        Map<String, GameCharacter> characters = heros.get(seriesName);
+        Map<String, GameCharacter> characters = HEROES.get(seriesName);
         if (characters == null) {
             characters = new HashMap<>();
             characters.putIfAbsent(character.getCharacterName(), character);
-            heros.put(seriesName, characters);
+            HEROES.put(seriesName, characters);
         } else {
             characters.putIfAbsent(character.getCharacterName(), character);
         }
     }
 
     @Override
-    public Map<String, GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException {
-        return heros.get(selectedSeries);
+    public Map<String, GameCharacter> getAvailableHeroes(String selectedSeries) throws CharacterServiceException {
+        return HEROES.get(selectedSeries);
     }
 
     @Override
     public Map<String, GameCharacter> getAvailableVillains(String selectedSeries) throws CharacterServiceException {
-        return villains.get(selectedSeries);
+        return VILLAINS.get(selectedSeries);
     }
 
     @Override
     public void addVillainCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
-        Map<String, GameCharacter> characters = villains.get(seriesName);
+        Map<String, GameCharacter> characters = VILLAINS.get(seriesName);
         if (characters == null) {
             characters = new HashMap<>();
             characters.putIfAbsent(character.getCharacterName(), character);
-            villains.put(seriesName, characters);
+            VILLAINS.put(seriesName, characters);
         } else {
             characters.putIfAbsent(character.getCharacterName(), character);
         }
@@ -100,12 +100,12 @@ public class GameRepository implements Repository {
         try {
             file = new FileOutputStream("game_heros");
             out = new ObjectOutputStream(file);
-            out.writeObject(heros);
+            out.writeObject(HEROES);
             out.close();
             file.close();
             file = new FileOutputStream("game_villains");
             out = new ObjectOutputStream(file);
-            out.writeObject(villains);
+            out.writeObject(VILLAINS);
             out.close();
             file.close();
         } catch (IOException e) {
@@ -115,8 +115,8 @@ public class GameRepository implements Repository {
     }
 
     private void updateStore(List<Player> players, String gameSeriesName) {
-        Map<String, GameCharacter> heroCharacters = heros.get(gameSeriesName);
-        Map<String, GameCharacter> vilianCharacters = villains.get(gameSeriesName);
+        Map<String, GameCharacter> heroCharacters = HEROES.get(gameSeriesName);
+        Map<String, GameCharacter> vilianCharacters = VILLAINS.get(gameSeriesName);
         for (Player p : players) {
             if (p.getGameCharacter()
                  .getType() == CharacterType.HERO) {
@@ -160,8 +160,8 @@ public class GameRepository implements Repository {
 
     @Override
     public void resetHealthOfSeriesCharacters(String gameSeriesName) {
-        Map<String, GameCharacter> heroCharacters = heros.get(gameSeriesName);
-        Map<String, GameCharacter> villainCharacters = villains.get(gameSeriesName);
+        Map<String, GameCharacter> heroCharacters = HEROES.get(gameSeriesName);
+        Map<String, GameCharacter> villainCharacters = VILLAINS.get(gameSeriesName);
         heroCharacters.values()
                       .forEach(ch -> ch.setHealthLevel(100));
         villainCharacters.values()
@@ -175,13 +175,13 @@ public class GameRepository implements Repository {
             file = new FileInputStream("game_heros");
             in = new ObjectInputStream(file);
             Map<String, Map<String, GameCharacter>> herosMap = (HashMap) in.readObject();
-            heros.putAll(herosMap);
+            HEROES.putAll(herosMap);
             in.close();
             file.close();
             file = new FileInputStream("game_villains");
             in = new ObjectInputStream(file);
             Map<String, Map<String, GameCharacter>> vilianMap = (HashMap) in.readObject();
-            villains.putAll(vilianMap);
+            VILLAINS.putAll(vilianMap);
             in.close();
             file.close();
         } catch (IOException | ClassNotFoundException e) {

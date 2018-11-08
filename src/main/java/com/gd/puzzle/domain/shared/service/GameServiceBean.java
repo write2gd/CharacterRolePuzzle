@@ -49,7 +49,7 @@ public class GameServiceBean implements GameService {
         Player opponent = new Player("Computer", false);
         List<GameCharacter> villians = null;
         try {
-            villians = characterService.getAvailableVilians(gameType);
+            villians = characterService.getAvailableVillains(gameType);
         } catch (CharacterServiceException e) {
             throw new GameServiceException(e.getMessage(), e);
         }
@@ -84,7 +84,7 @@ public class GameServiceBean implements GameService {
     }
 
     private GameCharacter chooseCharacter(String selectedSeries) throws CharacterServiceException {
-        List<GameCharacter> gameHeros = characterService.getAvailableHeros(selectedSeries);
+        List<GameCharacter> gameHeros = characterService.getAvailableHeroes(selectedSeries);
         ConsoleUtil.printCharacterList(gameHeros);
         return GameHelper.getGameCharacter(gameHeros);
     }
@@ -119,14 +119,14 @@ public class GameServiceBean implements GameService {
         for (GameType g : GameType.values()) {
             List<GameCharacter> heros = null;
             try {
-                heros = characterService.getAvailableHeros(g.getGameName());
+                heros = characterService.getAvailableHeroes(g.getGameName());
             } catch (CharacterServiceException e) {
                 throw new GameServiceException(e.getMessage(), e);
             }
             ConsoleUtil.showHerosMessage(heros, g);
             List<GameCharacter> vilians = null;
             try {
-                vilians = characterService.getAvailableVilians(g.getGameName());
+                vilians = characterService.getAvailableVillains(g.getGameName());
             } catch (CharacterServiceException e) {
                 throw new GameServiceException(e.getMessage(), e);
             }

@@ -8,9 +8,9 @@ import com.gd.puzzle.exception.CharacterServiceException;
 public interface CharacterService {
     void addCharacter(GameCharacter character, String seriesName) throws CharacterServiceException;
 
-    List<GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException;
+    List<GameCharacter> getAvailableHeroes(String selectedSeries) throws CharacterServiceException;
 
-    List<GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException;
+    List<GameCharacter> getAvailableVillains(String selectedSeries) throws CharacterServiceException;
 
 
 }

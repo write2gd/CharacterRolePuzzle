@@ -13,7 +13,7 @@ public interface Repository {
 
     void addHeroCharacter(GameCharacter character, String seriesName) throws CharacterServiceException;
 
-    Map<String, GameCharacter> getAvailableHeros(String selectedSeries) throws CharacterServiceException;
+    Map<String, GameCharacter> getAvailableHeroes(String selectedSeries) throws CharacterServiceException;
 
     Map<String, GameCharacter> getAvailableVillains(String selectedSeries) throws CharacterServiceException;
 
