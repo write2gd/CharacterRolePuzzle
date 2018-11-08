@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.gd.puzzle.domain.character.model.GameCharacter;
-import com.gd.puzzle.domain.location.model.Location;
 import com.gd.puzzle.domain.shared.model.Player;
 import com.gd.puzzle.enums.Action;
 import com.gd.puzzle.enums.GameType;
@@ -17,7 +16,7 @@ import com.gd.puzzle.exception.GameServiceException;
 public class ConsoleUtil {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static Scanner getScanner() {
+    private static Scanner getScanner() {
         if (scanner == null) {
             scanner = new Scanner(System.in);
         }
@@ -47,14 +46,12 @@ public class ConsoleUtil {
         printMessage(
                    VERTICAL_LINE + String.format("%3s", "ID") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", "Name") + String.format(
                               "%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", "Experience") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT
-                              + String.format("%3s", "Speciality") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", "Location")
-                              + String.format("%3s", " ") + VERTICAL_LINE_RIGHT);
+                              + String.format("%3s", "Speciality") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT);
         int i = 1;
         for (GameCharacter c : gameHeros) {
             printMessage(VERTICAL_LINE + String.format("%3s", i) + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", c.getCharacterName())
                                     + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", c.getExperience()) + String.format("%9s", " ")
-                                    + VERTICAL_LINE_RIGHT + String.format("%3s", c.getSpeciality()) + String.format("%6s", " ") + VERTICAL_LINE_RIGHT
-                                    + String.format("%3s", c.getCurrentLocation()) + String.format("%3s", " ") + VERTICAL_LINE_RIGHT);
+                                    + VERTICAL_LINE_RIGHT + String.format("%3s", c.getSpeciality()) + String.format("%6s", " ") + VERTICAL_LINE_RIGHT);
             i++;
             sleep(500);
         }
@@ -204,13 +201,7 @@ public class ConsoleUtil {
 
     public static void showExploreMessage(String playerName) {
         printMessageWithBorder("Welcome " + playerName);
-        printMessage("You can explore different location ,different heros and villians ");
-    }
-
-    public static void displayLocations(List<Location> locations) {
-        printMessage(ResourceUtil.getMessage("puzzle.locations"));
-        locations.forEach(System.out::println);
-        printMessage(ResourceUtil.getMessage("puzzle.plain_line"));
+        printMessage("You can explore different Heros and Villains ");
     }
 
     public static void showHerosMessage(List<GameCharacter> heros, GameType g) {
@@ -219,8 +210,8 @@ public class ConsoleUtil {
 
     }
 
-    public static void showVillianMessage(List<GameCharacter> heros, GameType g) {
-        printMessage(ResourceUtil.getMessage("puzzle.vilians"));
+    public static void showVillainsMessage(List<GameCharacter> heros, GameType g) {
+        printMessage(ResourceUtil.getMessage("puzzle.villains"));
         showCharacterSeries(heros, g);
 
     }
@@ -246,7 +237,8 @@ public class ConsoleUtil {
     }
 
     public static void showHelp() {
-        printMessageWithBorder("Help section..");
+        printMessageWithBorder("**********Help section**********");
+        printMessage("Enter the preferred option and follow the actions");
 
     }
 }

@@ -1,6 +1,27 @@
-This is command line based role playing game.
-Here are the stories:
-● As a player You want to create a character
-● As a player You want to explore
-● As a player You want to gain experience through fighting
-● As a player You want to save and resume a game
+This is a command line based role playing game.
+The main features are :
+● As a player You can create a character
+● As a player You can to explore the game
+● As a player You can experience through fighting
+● As a player You can save and resume a game
+
+Instructions :
+1) Checkout the code from github
+2) Run maven install command to start with and follw the subsequent inputs to play.
+3) If you don't have maven. Then directly run the Main class(PuzzleMainClass.java) from command line.
+
+
+
+Features:
+1)This game supports multiple character :
+	->The Flash
+	->Harry Potter
+	->The Lord of the Rings
+	->SuperHeros
+2)Any time you can save and resume the game.
+3)Any time you can switch to different character series.
+4)This game can be extended to more series
+
+
+Credit:
+Gouranga Das

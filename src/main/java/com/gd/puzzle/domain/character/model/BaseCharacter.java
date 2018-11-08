@@ -5,11 +5,11 @@ import java.io.Serializable;
 import com.gd.puzzle.enums.Speciality;
 
 public class BaseCharacter implements Serializable {
-    private int punch;
-    private int hit;
-    private int kick;
-    private int attack;
-    private Speciality speciality;
+    protected int punch;
+    protected int hit;
+    protected int kick;
+    protected int attack;
+    protected Speciality speciality;
 
     public BaseCharacter() {
     }
@@ -39,7 +39,7 @@ public class BaseCharacter implements Serializable {
     }
 
     public int getDefense() {
-        return Math.round(attack / 3);
+        return attack / 3;
     }
 
     public Speciality getSpeciality() {
@@ -47,7 +47,7 @@ public class BaseCharacter implements Serializable {
     }
 
     public int getCounter_attack() {
-        return Math.round(attack / 2);
+        return attack / 2;
     }
 
     public void setPunch(int punch) {

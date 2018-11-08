@@ -6,19 +6,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-import com.gd.puzzle.domain.location.model.Location;
 import com.gd.puzzle.util.ConsoleUtil;
 
 public class Game implements Serializable {
-    private static final long serialVersionUID = 1l;
-    private String gameSeriesName;
-    private List<Location> destinations;
-    private List<Player> players;
-    private boolean isActive = true;
+    protected static final long serialVersionUID = 1l;
+    protected String gameSeriesName;
+    protected List<Player> players;
+    protected boolean isActive = true;
 
-    public Game(String gameSeriesName, List<Location> destinations, List<Player> players) {
+    public Game(String gameSeriesName, List<Player> players) {
         this.gameSeriesName = gameSeriesName;
-        this.destinations = destinations;
         this.players = players;
     }
 
@@ -28,14 +25,6 @@ public class Game implements Serializable {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
-    }
-
-    public List<Location> getDestinations() {
-        return destinations;
-    }
-
-    public void setDestinations(List<Location> destinations) {
-        this.destinations = destinations;
     }
 
     public boolean isActive() {
@@ -80,6 +69,7 @@ public class Game implements Serializable {
                          .get(0);
         Player computer = this.getPlayers()
                               .get(1);
+        char[] fightActions = new char[] { 'P', 'A', 'K', 'H', 'D', 'C' };
         do {
             ConsoleUtil.showPlayerStatistics(this.getPlayers());
             Player current = you;
@@ -91,7 +81,7 @@ public class Game implements Serializable {
                 current = you;
                 opponent = computer;
             }
-            action = getPlayerAction(current, computer.isHasNextTurn());
+            action = getPlayerAction(current, fightActions, computer.isHasNextTurn());
             switch (action) {
             case 'S':
                 return null;
@@ -158,27 +148,25 @@ public class Game implements Serializable {
 
     }
 
-    private char getPlayerAction(Player player, boolean isComputerTurn) {
+    private char getPlayerAction(Player player, char[] fightActions, boolean isComputerTurn) {
         ConsoleUtil.printMessage("Your Turn : " + player.getGameCharacter()
                                                         .getCharacterName());
         char action = 'P';
         if (isComputerTurn) {
 
-            char[] actions = new char[] { 'P', 'A', 'K', 'H', 'D', 'C' };
-            action = actions[new Random().nextInt(actions.length)];
+            action = fightActions[new Random().nextInt(fightActions.length)];
             ConsoleUtil.printMessage(String.valueOf(action));
             return action;
         } else {
-            try {
-                return ConsoleUtil.getScanner()
-                                  .nextLine()
-                                  .toUpperCase()
-                                  .charAt(0);
-            } catch (Exception e) {
-                return action;
+            while (true) {
+                action = ConsoleUtil.readCharacter();
+                if (action == 'P' || action == 'K' || action == 'H' || action == 'A' || action == 'D' || action == 'C' || action == 'S' || action == 'X') {
+                    return action;
+                } else {
+                    ConsoleUtil.showInvalidOptionMessage();
+                }
             }
         }
-
     }
 
     public Player continuePlay() {
@@ -193,11 +181,11 @@ public class Game implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
         Game game = (Game) o;
-        return Objects.equals(destinations, game.destinations) && Objects.equals(players, game.players);
+        return Objects.equals(players, game.players);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(destinations, players);
+        return Objects.hash(players);
     }
 }

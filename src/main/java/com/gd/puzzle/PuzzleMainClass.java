@@ -16,17 +16,18 @@ import com.gd.puzzle.exception.GameServiceException;
 import com.gd.puzzle.util.ConsoleUtil;
 import com.gd.puzzle.util.ResourceUtil;
 
-public class CharacterPuzzle {
+public class PuzzleMainClass {
     private static GameService gameService = GameServiceBean.getGameService();
     private static CharacterService characterService = CharacterServiceBean.getCharacterService();
     private static String[] series = null;
 
     public static void main(String[] args) throws InterruptedException {
         init();
-        ConsoleUtil.printMessage(ResourceUtil.getMessage("puzzle.player_name"));
-        String playerName = ConsoleUtil.getScanner()
-                                       .nextLine();
-        ConsoleUtil.printMessage("Welcome Mr. " + playerName);
+        String playerName = GameHelper.getPlayerName();
+        if (playerName.isEmpty()) {
+            return;
+        }
+        ConsoleUtil.printMessage("Welcome  " + playerName);
         while (true) {
             int nextAction = GameHelper.getPlayerAction();
             switch (nextAction) {
@@ -63,6 +64,7 @@ public class CharacterPuzzle {
             case 6:
                 return;
             default:
+                ConsoleUtil.showHelp();
             }
         }
     }
@@ -88,8 +90,6 @@ public class CharacterPuzzle {
         String charName = ConsoleUtil.readString();
         ConsoleUtil.printMessage("Enter  Character type(hero/vilian)");
         String type = ConsoleUtil.readString();
-        ConsoleUtil.printMessage("Enter  Character location");
-        String locationName = ConsoleUtil.readString();
         ConsoleUtil.printMessage("Enter  Character Speciality(FLY/RUN/FIRE/MAGIC/STRENGTH)");
         String speciality = ConsoleUtil.readString();
         ConsoleUtil.printMessage("Enter  Character Punch power(1-100)");
@@ -102,7 +102,7 @@ public class CharacterPuzzle {
         int attack = ConsoleUtil.readInteger();
         ConsoleUtil.printMessage("Enter the Series to character belongs(FLASH/HARRYPOTTER/LORDOFTHERINGS/SUPERHEROS)");
         String series = ConsoleUtil.readString();
-        GameCharacter character = CharacterFactory.createCharacter(charName, type, locationName, speciality, punch, hit, kick, attack);
+        GameCharacter character = CharacterFactory.createCharacter(charName, type, speciality, punch, hit, kick, attack);
         characterService.addCharacter(character, series);
         ConsoleUtil.showCharacterSuccess();
 
@@ -111,6 +111,9 @@ public class CharacterPuzzle {
     private static void startNewGame(String playerName, String[] series) {
         ConsoleUtil.showAvailableSeries();
         int selectedIndex = GameHelper.getSelectedIndex();
+        if (selectedIndex == 0) {
+            return;
+        }
         try {
             gameService.startNewGame(playerName, series[selectedIndex - 1].toUpperCase());
         } catch (GameServiceException e) {

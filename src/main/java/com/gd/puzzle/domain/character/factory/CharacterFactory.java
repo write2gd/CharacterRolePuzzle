@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import com.gd.puzzle.domain.character.model.GameCharacter;
-import com.gd.puzzle.domain.location.model.Location;
 import com.gd.puzzle.enums.CharacterType;
 import com.gd.puzzle.enums.Speciality;
 import com.gd.puzzle.exception.CharacterInitializationException;
@@ -19,14 +18,12 @@ public class CharacterFactory {
             String charName = ResourceUtil.getMessage("name", resourceBundle)
                                           .toUpperCase();
             String type = ResourceUtil.getMessage("type", resourceBundle);
-            String locationName = ResourceUtil.getMessage("location", resourceBundle)
-                                              .toUpperCase();
             int punch = Integer.parseInt(ResourceUtil.getMessage("punch", resourceBundle));
             int hit = Integer.parseInt(ResourceUtil.getMessage("hit", resourceBundle));
             int kick = Integer.parseInt(ResourceUtil.getMessage("kick", resourceBundle));
             int attack = Integer.parseInt(ResourceUtil.getMessage("attack", resourceBundle));
             String speciality = ResourceUtil.getMessage("speciality", resourceBundle);
-            return createCharacter(charName, type, locationName, speciality, punch, hit, kick, attack);
+            return createCharacter(charName, type, speciality, punch, hit, kick, attack);
         } catch (IOException | ResourceException e) {
             throw new CharacterInitializationException(e.getMessage(), e);
         }
@@ -58,11 +55,9 @@ public class CharacterFactory {
         return s;
     }
 
-    public static GameCharacter createCharacter(String charName, String type, String locationName, String speciality, int punch, int hit, int kick,
-               int attack) {
+    public static GameCharacter createCharacter(String charName, String type, String speciality, int punch, int hit, int kick, int attack) {
         GameCharacter character = new GameCharacter();
         character.setCharacterName(charName);
-        character.setCurrentLocation(new Location(locationName));
         if ("hero".equalsIgnoreCase(type)) {
             character.setType(CharacterType.HERO);
         } else {

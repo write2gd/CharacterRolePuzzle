@@ -1,9 +1,9 @@
 package com.gd.puzzle.domain.shared.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.gd.puzzle.domain.character.model.GameCharacter;
-import com.gd.puzzle.domain.location.model.Location;
 
 public class Player implements Serializable, Comparable<Player> {
     private static final long serialVersionUID = 1l;
@@ -11,19 +11,10 @@ public class Player implements Serializable, Comparable<Player> {
     private GameCharacter gameCharacter;
     private boolean hasNextTurn;
     private boolean isAlive = true;
-    private Location location;
 
     public Player(String playerName, boolean hasNextTurn) {
         this.playerName = playerName;
         this.hasNextTurn = hasNextTurn;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public String getPlayerName() {
@@ -58,11 +49,6 @@ public class Player implements Serializable, Comparable<Player> {
         isAlive = alive;
     }
 
-    public Location travelToDestination(Location location) {
-        this.location = location;
-        return location;
-    }
-
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -82,22 +68,13 @@ public class Player implements Serializable, Comparable<Player> {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-
         Player player = (Player) o;
-
-        if (playerName != null ? !playerName.equals(player.playerName) : player.playerName != null)
-            return false;
-        if (gameCharacter != null ? !gameCharacter.equals(player.gameCharacter) : player.gameCharacter != null)
-            return false;
-        return location != null ? location.equals(player.location) : player.location == null;
+        return Objects.equals(playerName, player.playerName) && Objects.equals(gameCharacter, player.gameCharacter);
     }
 
     @Override
     public int hashCode() {
-        int result = playerName != null ? playerName.hashCode() : 0;
-        result = 31 * result + (gameCharacter != null ? gameCharacter.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        return result;
+        return Objects.hash(playerName, gameCharacter);
     }
 
     @Override

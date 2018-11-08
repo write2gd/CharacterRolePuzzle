@@ -3,31 +3,25 @@ package com.gd.puzzle.repository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.gd.puzzle.domain.character.model.GameCharacter;
-import com.gd.puzzle.domain.location.model.Location;
 import com.gd.puzzle.domain.shared.model.Game;
 import com.gd.puzzle.domain.shared.model.Player;
 import com.gd.puzzle.enums.CharacterType;
 import com.gd.puzzle.exception.CharacterServiceException;
 import com.gd.puzzle.exception.GameException;
-import com.gd.puzzle.exception.LocationServiceException;
 import com.gd.puzzle.util.ConsoleUtil;
 
 public class GameRepository implements Repository {
     private static GameRepository gameRepository = null;
-    private static Set<Location> locations = new HashSet<>();
-    public static Map<String, Map<String, GameCharacter>> heros = new HashMap<>();
-    public static Map<String, Map<String, GameCharacter>> vilians = new HashMap<>();
+    private static final Map<String, Map<String, GameCharacter>> heros = new HashMap<>();
+    private static final Map<String, Map<String, GameCharacter>> villains = new HashMap<>();
 
     static {
         initRepo();
@@ -48,11 +42,6 @@ public class GameRepository implements Repository {
     }
 
     @Override
-    public List<Location> getLocation() throws LocationServiceException {
-        return Collections.unmodifiableList(new ArrayList<>(locations));
-    }
-
-    @Override
     public void addHeroCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
         Map<String, GameCharacter> characters = heros.get(seriesName);
         if (characters == null) {
@@ -70,26 +59,20 @@ public class GameRepository implements Repository {
     }
 
     @Override
-    public Map<String, GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException {
-        return vilians.get(selectedSeries);
+    public Map<String, GameCharacter> getAvailableVillains(String selectedSeries) throws CharacterServiceException {
+        return villains.get(selectedSeries);
     }
 
     @Override
-    public void addVilianCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
-        Map<String, GameCharacter> characters = vilians.get(seriesName);
+    public void addVillainCharacter(GameCharacter character, String seriesName) throws CharacterServiceException {
+        Map<String, GameCharacter> characters = villains.get(seriesName);
         if (characters == null) {
             characters = new HashMap<>();
             characters.putIfAbsent(character.getCharacterName(), character);
-            vilians.put(seriesName, characters);
+            villains.put(seriesName, characters);
         } else {
             characters.putIfAbsent(character.getCharacterName(), character);
         }
-    }
-
-    @Override
-    public void addNewLocation(Location location) throws LocationServiceException {
-        locations.add(location);
-
     }
 
     @Override
@@ -102,7 +85,7 @@ public class GameRepository implements Repository {
             out.writeObject(game);
             out.close();
             file.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             ConsoleUtil.printMessageWithBorder("Game not saved due to technical issue");
         }
     }
@@ -120,17 +103,12 @@ public class GameRepository implements Repository {
             out.writeObject(heros);
             out.close();
             file.close();
-            file = new FileOutputStream("game_vilians");
+            file = new FileOutputStream("game_villains");
             out = new ObjectOutputStream(file);
-            out.writeObject(vilians);
+            out.writeObject(villains);
             out.close();
             file.close();
-            file = new FileOutputStream("game_locations");
-            out = new ObjectOutputStream(file);
-            out.writeObject(locations);
-            out.close();
-            file.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
 
         }
 
@@ -138,7 +116,7 @@ public class GameRepository implements Repository {
 
     private void updateStore(List<Player> players, String gameSeriesName) {
         Map<String, GameCharacter> heroCharacters = heros.get(gameSeriesName);
-        Map<String, GameCharacter> vilianCharacters = vilians.get(gameSeriesName);
+        Map<String, GameCharacter> vilianCharacters = villains.get(gameSeriesName);
         for (Player p : players) {
             if (p.getGameCharacter()
                  .getType() == CharacterType.HERO) {
@@ -163,7 +141,7 @@ public class GameRepository implements Repository {
             in.close();
             file.close();
             return game;
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new GameException("Game can not be resume...No Active Game");
         }
     }
@@ -176,7 +154,18 @@ public class GameRepository implements Repository {
                 file.delete();
             }
         } catch (Exception e) {
+            //Nothing to do
         }
+    }
+
+    @Override
+    public void resetHealthOfSeriesCharacters(String gameSeriesName) {
+        Map<String, GameCharacter> heroCharacters = heros.get(gameSeriesName);
+        Map<String, GameCharacter> villainCharacters = villains.get(gameSeriesName);
+        heroCharacters.values()
+                      .forEach(ch -> ch.setHealthLevel(100));
+        villainCharacters.values()
+                         .forEach(ch -> ch.setHealthLevel(100));
     }
 
     private static void readGameAttributes() {
@@ -189,19 +178,13 @@ public class GameRepository implements Repository {
             heros.putAll(herosMap);
             in.close();
             file.close();
-            file = new FileInputStream("game_vilians");
+            file = new FileInputStream("game_villains");
             in = new ObjectInputStream(file);
             Map<String, Map<String, GameCharacter>> vilianMap = (HashMap) in.readObject();
-            vilians.putAll(vilianMap);
+            villains.putAll(vilianMap);
             in.close();
             file.close();
-            file = new FileInputStream("game_locations");
-            in = new ObjectInputStream(file);
-            Set<Location> locationSet = (HashSet) in.readObject();
-            locations.addAll(locationSet);
-            in.close();
-            file.close();
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
 
         }
     }

@@ -7,7 +7,6 @@ import java.util.Map;
 import com.gd.puzzle.domain.character.model.GameCharacter;
 import com.gd.puzzle.enums.CharacterType;
 import com.gd.puzzle.exception.CharacterServiceException;
-import com.gd.puzzle.exception.LocationServiceException;
 import com.gd.puzzle.repository.GameRepository;
 import com.gd.puzzle.repository.Repository;
 
@@ -33,12 +32,7 @@ public class CharacterServiceBean implements CharacterService {
                      .ordinal() == CharacterType.HERO.ordinal()) {
             repository.addHeroCharacter(character, seriesName);
         } else {
-            repository.addVilianCharacter(character, seriesName);
-        }
-        try {
-            repository.addNewLocation(character.getCurrentLocation());
-        } catch (LocationServiceException e) {
-            throw new CharacterServiceException(e.getMessage(), e);
+            repository.addVillainCharacter(character, seriesName);
         }
     }
 
@@ -55,7 +49,7 @@ public class CharacterServiceBean implements CharacterService {
 
     @Override
     public List<GameCharacter> getAvailableVilians(String selectedSeries) throws CharacterServiceException {
-        Map<String, GameCharacter> villans = repository.getAvailableVilians(selectedSeries);
+        Map<String, GameCharacter> villans = repository.getAvailableVillains(selectedSeries);
         if (villans == null) {
             return new ArrayList<>();
         } else {

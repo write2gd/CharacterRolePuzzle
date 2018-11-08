@@ -17,15 +17,8 @@ public enum MenuItems {
         return action;
     }
 
-    public void setAction(int action) {
-        this.action = action;
-    }
-
     public String getActionMsg() {
         return actionMsg;
     }
 
-    public void setActionMsg(String actionMsg) {
-        this.actionMsg = actionMsg;
-    }
 }
