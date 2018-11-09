@@ -144,6 +144,7 @@ public class ConsoleUtil {
         try {
             Thread.sleep(i);
         } catch (InterruptedException e) {
+            //Nothing to do here
         }
     }
 

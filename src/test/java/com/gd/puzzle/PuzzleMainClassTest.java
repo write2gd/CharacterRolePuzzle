@@ -32,7 +32,7 @@ public class PuzzleMainClassTest extends TestCase {
         }
     }
 
-    private class MockInputStream {
+    private static class MockInputStream {
         public void provideInputs(String... lines) {
             provideInput(joinInputLines(lines));
         }
