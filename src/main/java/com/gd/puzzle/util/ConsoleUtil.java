@@ -37,18 +37,18 @@ public class ConsoleUtil {
         }
     }
 
-    public static void printCharacterList(List<GameCharacter> gameHeros) {
+    public static void printCharacterList(List<GameCharacter> gameHeroes) {
         printMessage(ResourceUtil.getMessage("puzzle.select_character"));
-        displayCharacters(gameHeros);
+        displayCharacters(gameHeroes);
     }
 
-    private static void displayCharacters(List<GameCharacter> gameHeros) {
+    private static void displayCharacters(List<GameCharacter> gameHeroes) {
         printMessage(
                    VERTICAL_LINE + String.format("%3s", "ID") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", "Name") + String.format(
                               "%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", "Experience") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT
                               + String.format("%3s", "Speciality") + String.format("%3s", " ") + VERTICAL_LINE_RIGHT);
         int i = 1;
-        for (GameCharacter c : gameHeros) {
+        for (GameCharacter c : gameHeroes) {
             printMessage(VERTICAL_LINE + String.format("%3s", i) + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", c.getCharacterName())
                                     + String.format("%3s", " ") + VERTICAL_LINE_RIGHT + String.format("%3s", c.getExperience()) + String.format("%9s", " ")
                                     + VERTICAL_LINE_RIGHT + String.format("%3s", c.getSpeciality()) + String.format("%6s", " ") + VERTICAL_LINE_RIGHT);
@@ -201,44 +201,45 @@ public class ConsoleUtil {
 
     public static void showExploreMessage(String playerName) {
         printMessageWithBorder("Welcome " + playerName);
-        printMessage("You can explore different Heros and Villains ");
+        printMessage("You can explore different Heroes and Villains ");
     }
 
-    public static void showHerosMessage(List<GameCharacter> heros, GameType g) {
-        printMessage(ResourceUtil.getMessage("puzzle.heros"));
-        showCharacterSeries(heros, g);
+    public static void showHeroesMessage(List<GameCharacter> heroes, GameType g) {
+        printMessage(ResourceUtil.getMessage("puzzle.heroes"));
+        showCharacterSeries(heroes, g);
 
     }
 
-    public static void showVillainsMessage(List<GameCharacter> heros, GameType g) {
+    public static void showVillainsMessage(List<GameCharacter> heroes, GameType g) {
         printMessage(ResourceUtil.getMessage("puzzle.villains"));
-        showCharacterSeries(heros, g);
+        showCharacterSeries(heroes, g);
 
     }
 
-    private static void showCharacterSeries(List<GameCharacter> heros, GameType g) {
+    private static void showCharacterSeries(List<GameCharacter> heroes, GameType g) {
         if (g == GameType.FLASH) {
             printMessage("FLASH SERIES");
-            displayCharacters(heros);
+            displayCharacters(heroes);
 
         } else if (g == GameType.HARRY_POTTER) {
             printMessage("HARRY POTTER");
-            displayCharacters(heros);
+            displayCharacters(heroes);
 
         } else if (g == GameType.THE_LORD_OF_THE_RINGS) {
             printMessage("THE LORD OF THE RINGS");
-            displayCharacters(heros);
+            displayCharacters(heroes);
 
         } else {
             printMessage("SUPERHERO SERIES");
-            displayCharacters(heros);
+            displayCharacters(heroes);
 
         }
     }
 
     public static void showHelp() {
-        printMessageWithBorder("**********Help section**********");
+        printMessage(ResourceUtil.getMessage("puzzle.help"));
         printMessage("Enter the preferred option and follow the actions");
+        printMessage(ResourceUtil.getMessage("puzzle.plain_line"));
 
     }
 }

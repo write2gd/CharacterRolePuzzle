@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import com.gd.puzzle.exception.ResourceException;
 
 public class ResourceUtil {
+    public static final String DEFAULT_BUNDLE = "application";
     private static ResourceBundle resourceBundle;
 
     public static ResourceBundle getResourceBundle(String bundleName) {
@@ -30,7 +31,7 @@ public class ResourceUtil {
     }
 
     public static String getMessage(String key) {
-        return getResourceBundle("application").getString(key);
+        return getResourceBundle(DEFAULT_BUNDLE).getString(key);
     }
 
     public static String getMessage(String key, ResourceBundle bundle) throws ResourceException {
@@ -41,9 +42,6 @@ public class ResourceUtil {
         }
     }
 
-    public static String getMessage(String key, String bundleName) {
-        return getResourceBundle(bundleName).getString(key);
-    }
 
     public static File[] getResourceFiles(String folder) {
         ClassLoader loader = Thread.currentThread()

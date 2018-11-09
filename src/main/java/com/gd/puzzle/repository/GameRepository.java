@@ -98,7 +98,7 @@ public class GameRepository implements Repository {
             updateStore(players, gameSeriesName);
         }
         try {
-            file = new FileOutputStream("game_heros");
+            file = new FileOutputStream("game_heroes");
             out = new ObjectOutputStream(file);
             out.writeObject(HEROES);
             out.close();
@@ -116,7 +116,7 @@ public class GameRepository implements Repository {
 
     private void updateStore(List<Player> players, String gameSeriesName) {
         Map<String, GameCharacter> heroCharacters = HEROES.get(gameSeriesName);
-        Map<String, GameCharacter> vilianCharacters = VILLAINS.get(gameSeriesName);
+        Map<String, GameCharacter> villiainCharacters = VILLAINS.get(gameSeriesName);
         for (Player p : players) {
             if (p.getGameCharacter()
                  .getType() == CharacterType.HERO) {
@@ -124,7 +124,7 @@ public class GameRepository implements Repository {
                                     .getCharacterName(), p.getGameCharacter());
             } else if (p.getGameCharacter()
                         .getType() == CharacterType.VILIAN) {
-                vilianCharacters.put(p.getGameCharacter()
+                villiainCharacters.put(p.getGameCharacter()
                                       .getCharacterName(), p.getGameCharacter());
             }
         }
@@ -172,16 +172,16 @@ public class GameRepository implements Repository {
         FileInputStream file;
         ObjectInputStream in;
         try {
-            file = new FileInputStream("game_heros");
+            file = new FileInputStream("game_heroes");
             in = new ObjectInputStream(file);
-            Map<String, Map<String, GameCharacter>> herosMap = (HashMap) in.readObject();
-            HEROES.putAll(herosMap);
+            Map<String, Map<String, GameCharacter>> heroesMap = (HashMap) in.readObject();
+            HEROES.putAll(heroesMap);
             in.close();
             file.close();
             file = new FileInputStream("game_villains");
             in = new ObjectInputStream(file);
-            Map<String, Map<String, GameCharacter>> vilianMap = (HashMap) in.readObject();
-            VILLAINS.putAll(vilianMap);
+            Map<String, Map<String, GameCharacter>> villiainMap = (HashMap) in.readObject();
+            VILLAINS.putAll(villiainMap);
             in.close();
             file.close();
         } catch (IOException | ClassNotFoundException e) {

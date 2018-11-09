@@ -17,17 +17,18 @@ import com.gd.puzzle.util.ConsoleUtil;
 import com.gd.puzzle.util.ResourceUtil;
 
 public class PuzzleMainClass {
+    public static final String WELCOME = "Welcome  ";
     private static GameService gameService = GameServiceBean.getGameService();
     private static CharacterService characterService = CharacterServiceBean.getCharacterService();
     private static String[] series = null;
 
     public static void main(String[] args) throws InterruptedException {
-        init();
+        initGame();
         String playerName = GameHelper.getPlayerName();
         if (playerName.isEmpty()) {
             return;
         }
-        ConsoleUtil.printMessage("Welcome  " + playerName);
+        ConsoleUtil.printMessage(WELCOME + playerName);
         while (true) {
             int nextAction = GameHelper.getPlayerAction();
             switch (nextAction) {
@@ -69,8 +70,9 @@ public class PuzzleMainClass {
         }
     }
 
-    private static void init() throws InterruptedException {
+    private static void initGame() throws InterruptedException {
         if (series != null) {
+            //Game already initialized.
             return;
         }
         ConsoleUtil.printMessageWithBorder("Initializing Game..wait");
@@ -86,23 +88,9 @@ public class PuzzleMainClass {
     }
 
     private static void createCharacter(String playerName) throws CharacterServiceException {
-        ConsoleUtil.printMessage("Enter  Character Name");
-        String charName = ConsoleUtil.readString();
-        ConsoleUtil.printMessage("Enter  Character type(hero/vilian)");
-        String type = ConsoleUtil.readString();
-        ConsoleUtil.printMessage("Enter  Character Speciality(FLY/RUN/FIRE/MAGIC/STRENGTH)");
-        String speciality = ConsoleUtil.readString();
-        ConsoleUtil.printMessage("Enter  Character Punch power(1-100)");
-        int punch = ConsoleUtil.readInteger();
-        ConsoleUtil.printMessage("Enter  Character Hitting power(1-100)");
-        int hit = ConsoleUtil.readInteger();
-        ConsoleUtil.printMessage("Enter  Character Kick power(1-100)");
-        int kick = ConsoleUtil.readInteger();
-        ConsoleUtil.printMessage("Enter  Character Attacking power(1-100)");
-        int attack = ConsoleUtil.readInteger();
-        ConsoleUtil.printMessage("Enter the Series to character belongs(FLASH/HARRYPOTTER/LORDOFTHERINGS/SUPERHEROS)");
+        GameCharacter character = GameHelper.getNewCharacter();
+        ConsoleUtil.printMessage("Enter the Series to character belongs(FLASH/HARRYPOTTER/LORDOFTHERINGS/SUPERHEROES)");
         String series = ConsoleUtil.readString();
-        GameCharacter character = CharacterFactory.createCharacter(charName, type, speciality, punch, hit, kick, attack);
         characterService.addCharacter(character, series);
         ConsoleUtil.showCharacterSuccess();
 

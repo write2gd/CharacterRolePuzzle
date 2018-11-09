@@ -1,7 +1,7 @@
 package com.gd.puzzle.enums;
 
 public enum GameType {
-    FLASH(1, "FLASH"), HARRY_POTTER(2, "HARRY POTTER"), THE_LORD_OF_THE_RINGS(3, "THE LORD_OF_THE_RINGS"), SUPERHEROES(4, "SUPER HERO SERIES ");
+    FLASH(1, "FLASH"), HARRY_POTTER(2, "HARRYPOTTER"), THE_LORD_OF_THE_RINGS(3, "LORDOFTHERINGS"), SUPERHEROES(4, "SUPERHEROES");
     private int id;
     private String gameName;
 

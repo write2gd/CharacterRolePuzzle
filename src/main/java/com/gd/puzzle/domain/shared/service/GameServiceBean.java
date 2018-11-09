@@ -84,9 +84,9 @@ public class GameServiceBean implements GameService {
     }
 
     private GameCharacter chooseCharacter(String selectedSeries) throws CharacterServiceException {
-        List<GameCharacter> gameHeros = characterService.getAvailableHeroes(selectedSeries);
-        ConsoleUtil.printCharacterList(gameHeros);
-        return GameHelper.getGameCharacter(gameHeros);
+        List<GameCharacter> gameHeroes = characterService.getAvailableHeroes(selectedSeries);
+        ConsoleUtil.printCharacterList(gameHeroes);
+        return GameHelper.getGameCharacter(gameHeroes);
     }
 
     private void saveGame(Game game, String playerName) {
@@ -117,13 +117,13 @@ public class GameServiceBean implements GameService {
     public void exploreGame(String playerName) throws GameServiceException {
         ConsoleUtil.showExploreMessage(playerName);
         for (GameType g : GameType.values()) {
-            List<GameCharacter> heros = null;
+            List<GameCharacter> heroes = null;
             try {
-                heros = characterService.getAvailableHeroes(g.getGameName());
+                heroes = characterService.getAvailableHeroes(g.getGameName());
             } catch (CharacterServiceException e) {
                 throw new GameServiceException(e.getMessage(), e);
             }
-            ConsoleUtil.showHerosMessage(heros, g);
+            ConsoleUtil.showHeroesMessage(heroes, g);
             List<GameCharacter> vilians = null;
             try {
                 vilians = characterService.getAvailableVillains(g.getGameName());

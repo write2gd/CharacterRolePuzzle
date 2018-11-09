@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.gd.puzzle.domain.character.factory.CharacterFactory;
 import com.gd.puzzle.domain.character.model.GameCharacter;
 import com.gd.puzzle.enums.GameType;
 import com.gd.puzzle.enums.MenuItems;
@@ -86,25 +87,44 @@ public class GameHelper {
         }
         return playerName;
     }
-    public static GameCharacter getGameCharacter(List<GameCharacter> gameHeros) {
+
+    public static GameCharacter getGameCharacter(List<GameCharacter> gameHeroes) {
         GameCharacter character = null;
         int trialCount = 0;
         while (true) {
             int selectedCharacter = ConsoleUtil.readInteger();
-            if (selectedCharacter <= 0 || selectedCharacter > gameHeros.size()) {
+            if (selectedCharacter <= 0 || selectedCharacter > gameHeroes.size()) {
                 ConsoleUtil.printMessage(ResourceUtil.getMessage("puzzle.invalid_series"));
                 trialCount++;
             } else {
-                character = Optional.ofNullable(gameHeros.get(selectedCharacter - 1))
+                character = Optional.ofNullable(gameHeroes.get(selectedCharacter - 1))
                                     .orElse(null);
                 break;
             }
-            if(trialCount>=3){
+            if (trialCount >= 3) {
                 ConsoleUtil.printMessageWithBorder(ResourceUtil.getMessage("puzzle.exceeded_trials"));
                 ConsoleUtil.printMessage(ResourceUtil.getMessage("puzzle.boundary_line"));
                 break;
             }
         }
         return character;
+    }
+
+    public static GameCharacter getNewCharacter() {
+        ConsoleUtil.printMessage(ResourceUtil.getMessage("puzzle.player_character_selection"));
+        String charName = ConsoleUtil.readString();
+        ConsoleUtil.printMessage("Enter  Character type(hero/vilian)");
+        String type = ConsoleUtil.readString();
+        ConsoleUtil.printMessage("Enter  Character Speciality(FLY/RUN/FIRE/MAGIC/STRENGTH)");
+        String speciality = ConsoleUtil.readString();
+        ConsoleUtil.printMessage("Enter  Character Punch power(1-100)");
+        int punch = ConsoleUtil.readInteger();
+        ConsoleUtil.printMessage("Enter  Character Hitting power(1-100)");
+        int hit = ConsoleUtil.readInteger();
+        ConsoleUtil.printMessage("Enter  Character Kick power(1-100)");
+        int kick = ConsoleUtil.readInteger();
+        ConsoleUtil.printMessage("Enter  Character Attacking power(1-100)");
+        int attack = ConsoleUtil.readInteger();
+        return CharacterFactory.createCharacter(charName, type, speciality, punch, hit, kick, attack);
     }
 }
